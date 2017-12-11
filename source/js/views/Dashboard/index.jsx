@@ -73,6 +73,22 @@ export default class WeatherHome extends Component {
     } = this.props;
 	var sunrise='';
 	var sunset ='';
+	if(localWeather && localWeather.sys.sunrise){
+		var sunriseDate = new Date(localWeather.sys.sunrise *1000);
+		var sunriseHour= sunriseDate.getHours();
+		var sunriseMinutes= sunriseDate.getMinutes();
+		var sunriseSuffix = (sunriseHour >= 12)? 'pm' : 'am';
+		sunriseHour = (sunriseHour >= 12)? sunriseHour-12 : sunriseHour;
+		sunrise = sunriseHour +':'+sunriseMinutes+ ' '+sunriseSuffix;
+	}
+	if(localWeather && localWeather.sys.sunset){
+		var sunsetDate= new Date(localWeather.sys.sunset *1000);
+		var sunsetHour= sunsetDate.getHours();
+		var sunsetMinutes= sunsetDate.getMinutes();
+		var sunsetSuffix = (sunsetHour >= 12)? 'pm' : 'am';
+		sunsetHour = (sunsetHour >= 12)? sunsetHour-12 : sunsetHour;
+		sunset = sunsetHour +':'+sunsetMinutes+ ' '+sunsetSuffix;
+	}
     return (
       <div className='Dashboard'>
         <h1>Weather App</h1>
@@ -101,8 +117,8 @@ export default class WeatherHome extends Component {
               <p>{ localWeather.weather[0].main } - { localWeather.weather[0].description }<br />
               Temp: { localWeather.main.temp } <span className="high-low-temps">({ localWeather.main.temp_min } - { localWeather.main.temp_max })</span><br/>
               Humidity: { localWeather.main.humidity } <br />
-              Sunrise: { sunrise } <br />
-              Sunset: { sunset } </p></div>
+              Sunrise:  { localWeather.sys.sunrise } - { sunrise } <br />
+              Sunset:  { localWeather.sys.sunset }  - { sunset } </p></div>
              }
              </div>
 
